@@ -3227,7 +3227,7 @@ img.u-pull-left {
 }
 
 .s-intro__text h3 span {
-    color : var(--color-2-light);
+    color : white;
 }
 
 .s-intro__text-huge {
@@ -3247,9 +3247,9 @@ img.u-pull-left {
     aspect-ratio        : 1/1;
     width               : 100%;
     background-color    : var(--color-gray-4);
-    background-image    : url(../images/intro-bg.jpg);
+    background-image    : url(../images/jaume-photo.jpg);
     background-repeat   : no-repeat;
-    background-position : center;
+    background-position : center 20%;
     background-size     : cover;
     position            : relative;
 }
