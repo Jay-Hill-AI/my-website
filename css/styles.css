@@ -3635,8 +3635,66 @@ img.u-pull-left {
     background-color : white;
 }
 
-/* ------------------------------------------------------------------- 
- * ## portfolio list
+/* -------------------------------------------------------------------
+ * ## numbered project list
+ * ------------------------------------------------------------------- */
+.works-list {
+    list-style            : none;
+    margin-top            : var(--vspace-2_5);
+    margin-left           : 0;
+    padding               : 0;
+    display               : grid;
+    grid-template-columns : 1fr 1fr;
+    column-gap            : 8rem;
+    row-gap               : 0;
+}
+
+.works-item {
+    border-top     : 1px solid rgba(0, 0, 0, 0.15);
+    padding-top    : 3.2rem;
+    padding-bottom : 4.8rem;
+}
+
+.works-item__num {
+    display        : block;
+    font-family    : var(--font-1);
+    font-weight    : 700;
+    font-size      : 7.2rem;
+    line-height    : 1;
+    color          : rgba(0, 0, 0, 0.07);
+    letter-spacing : -0.03em;
+    margin-bottom  : 2rem;
+}
+
+.works-item__cat {
+    display        : block;
+    font-family    : var(--font-1);
+    font-size      : 1.2rem;
+    font-weight    : 600;
+    text-transform : uppercase;
+    letter-spacing : 0.2em;
+    color          : var(--color-1);
+    margin-bottom  : 1rem;
+}
+
+.works-item__title {
+    font-family   : var(--font-2);
+    font-size     : 2.4rem;
+    line-height   : 1.25;
+    color         : var(--color-2);
+    margin-top    : 0;
+    margin-bottom : 1.6rem;
+}
+
+.works-item__desc {
+    font-size   : 1.5rem;
+    line-height : 1.8;
+    color       : var(--color-gray-11);
+    margin      : 0;
+}
+
+/* -------------------------------------------------------------------
+ * ## portfolio list (legacy — kept for template JS compatibility)
  * ------------------------------------------------------------------- */
 .folio-list {
     margin-top    : var(--vspace-2_5);
@@ -3909,6 +3967,14 @@ img.u-pull-left {
 }
 
 @media screen and (max-width: 900px) {
+    .works-list {
+        column-gap : 4rem;
+    }
+
+    .works-item__num {
+        font-size : 5.6rem;
+    }
+
     .folio-item__title {
         font-size   : var(--text-md);
         line-height : var(--vspace-0_875);
@@ -3921,6 +3987,16 @@ img.u-pull-left {
     .testimonial-slider {
         padding-right : var(--vspace-2_5);
         padding-left  : var(--vspace-2_5);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .works-list {
+        grid-template-columns : 1fr;
+    }
+
+    .works-item__num {
+        font-size : 4.8rem;
     }
 }
 
