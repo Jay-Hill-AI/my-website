@@ -3625,6 +3625,115 @@ img.u-pull-left {
 
 
 /* ===================================================================
+ * # HOBBIES
+ *
+ *
+ * ------------------------------------------------------------------- */
+.s-hobbies {
+    padding-top      : calc(6 * var(--space));
+    padding-bottom   : calc(5.5 * var(--space));
+    background-color : var(--color-gray-19);
+}
+
+.s-hobbies .text-pretitle {
+    color : var(--color-gray-11);
+}
+
+.s-hobbies .text-huge-title {
+    color : white;
+}
+
+.hobbies-grid {
+    display               : grid;
+    grid-template-columns : repeat(3, 1fr);
+    gap                   : 2px;
+    margin-top            : var(--vspace-2_5);
+}
+
+.hobby-item {
+    position   : relative;
+    overflow   : hidden;
+    aspect-ratio: 4 / 3;
+}
+
+.hobby-item__img {
+    position            : absolute;
+    inset               : 0;
+    background-size     : cover;
+    background-position : center;
+    transition          : transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hobby-item__overlay {
+    position         : absolute;
+    inset            : 0;
+    background       : linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%);
+    display          : flex;
+    flex-direction   : column;
+    justify-content  : flex-end;
+    padding          : 3.2rem;
+    transition       : background 0.4s ease;
+}
+
+.hobby-item__title {
+    font-family   : var(--font-2);
+    font-size     : 2.4rem;
+    line-height   : 1.2;
+    color         : white;
+    margin-top    : 0;
+    margin-bottom : 1rem;
+}
+
+.hobby-item__desc {
+    font-size      : 1.4rem;
+    line-height    : 1.7;
+    color          : rgba(255, 255, 255, 0.75);
+    margin         : 0;
+    max-height     : 0;
+    overflow       : hidden;
+    opacity        : 0;
+    transform      : translateY(8px);
+    transition     : max-height 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+}
+
+.hobby-item:hover .hobby-item__img {
+    transform : scale(1.05);
+}
+
+.hobby-item:hover .hobby-item__overlay {
+    background : linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0.1) 100%);
+}
+
+.hobby-item:hover .hobby-item__desc {
+    max-height : 12rem;
+    opacity    : 1;
+    transform  : translateY(0);
+}
+
+@media screen and (max-width: 900px) {
+    .hobbies-grid {
+        grid-template-columns : repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .hobbies-grid {
+        grid-template-columns : 1fr;
+    }
+
+    .hobby-item {
+        aspect-ratio : 3 / 2;
+    }
+
+    .hobby-item__desc {
+        max-height : 12rem;
+        opacity    : 1;
+        transform  : translateY(0);
+    }
+}
+
+
+/* ===================================================================
  * # WORKS
  *
  *
