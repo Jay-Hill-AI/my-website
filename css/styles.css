@@ -3195,7 +3195,7 @@ img.u-pull-left {
  *
  * ------------------------------------------------------------------- */
 .s-intro {
-    padding-top : 0;
+    padding-top : 6rem;
     width       : 100%;
     position    : relative;
 }
@@ -3292,7 +3292,7 @@ img.u-pull-left {
 
 @media screen and (max-width: 1000px) {
     .s-intro {
-        padding-top : calc(7 * var(--space));
+        padding-top : 6rem;
     }
 }
 
