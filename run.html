@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Running — Jaume Puig Piñol</title>
+<meta name="description" content="Running stats and charts — 288 runs, April 2021 to June 2026.">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>html,body{margin:0;padding:0;background:#faf8f5;}</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const MONTHLY = [
+  {ym:"2021-04",year:2021,dist:35,runs:7,elev:314,avgdist:5.0,pace:5.22,hr:174},
+  {ym:"2021-05",year:2021,dist:24,runs:7,elev:383,avgdist:3.4,pace:5.7,hr:162},
+  {ym:"2021-10",year:2021,dist:10,runs:2,elev:157,avgdist:4.9,pace:5.41,hr:175},
+  {ym:"2021-11",year:2021,dist:56,runs:16,elev:344,avgdist:3.5,pace:6.21,hr:155},
+  {ym:"2021-12",year:2021,dist:30,runs:9,elev:440,avgdist:3.4,pace:6.48,hr:152},
+  {ym:"2022-01",year:2022,dist:10,runs:2,elev:157,avgdist:4.9,pace:5.53,hr:173},
+  {ym:"2022-02",year:2022,dist:10,runs:3,elev:81,avgdist:3.3,pace:5.91,hr:163},
+  {ym:"2022-03",year:2022,dist:10,runs:5,elev:0,avgdist:2.1,pace:6.37,hr:162},
+  {ym:"2023-09",year:2023,dist:3,runs:1,elev:52,avgdist:2.8,pace:5.46,hr:170},
+  {ym:"2023-10",year:2023,dist:4,runs:1,elev:68,avgdist:3.8,pace:5.6,hr:174},
+  {ym:"2023-11",year:2023,dist:14,runs:3,elev:248,avgdist:4.7,pace:5.34,hr:177},
+  {ym:"2023-12",year:2023,dist:21,runs:3,elev:327,avgdist:7.1,pace:5.37,hr:176},
+  {ym:"2024-01",year:2024,dist:12,runs:2,elev:191,avgdist:6.2,pace:5.16,hr:178},
+  {ym:"2024-02",year:2024,dist:24,runs:4,elev:316,avgdist:5.9,pace:5.2,hr:170},
+  {ym:"2024-03",year:2024,dist:18,runs:5,elev:296,avgdist:3.7,pace:4.99,hr:171},
+  {ym:"2024-04",year:2024,dist:20,runs:5,elev:363,avgdist:4.1,pace:5.12,hr:172},
+  {ym:"2024-05",year:2024,dist:34,runs:8,elev:414,avgdist:4.2,pace:5.32,hr:164},
+  {ym:"2024-06",year:2024,dist:9,runs:4,elev:168,avgdist:2.2,pace:5.21,hr:162},
+  {ym:"2024-07",year:2024,dist:1,runs:2,elev:28,avgdist:0.4,pace:null,hr:148},
+  {ym:"2024-09",year:2024,dist:6,runs:1,elev:0,avgdist:5.5,pace:5.09,hr:175},
+  {ym:"2024-10",year:2024,dist:19,runs:3,elev:137,avgdist:6.3,pace:5.15,hr:176},
+  {ym:"2024-11",year:2024,dist:29,runs:3,elev:434,avgdist:9.5,pace:5.59,hr:165},
+  {ym:"2024-12",year:2024,dist:24,runs:6,elev:303,avgdist:4.1,pace:5.31,hr:168},
+  {ym:"2025-01",year:2025,dist:97,runs:13,elev:1477,avgdist:7.4,pace:5.58,hr:159},
+  {ym:"2025-02",year:2025,dist:143,runs:13,elev:1958,avgdist:11.0,pace:5.85,hr:155},
+  {ym:"2025-03",year:2025,dist:122,runs:11,elev:1545,avgdist:11.1,pace:6.23,hr:149},
+  {ym:"2025-04",year:2025,dist:28,runs:6,elev:480,avgdist:4.7,pace:5.48,hr:151},
+  {ym:"2025-05",year:2025,dist:81,runs:14,elev:1326,avgdist:5.8,pace:6.66,hr:149},
+  {ym:"2025-06",year:2025,dist:61,runs:9,elev:1465,avgdist:6.8,pace:5.6,hr:150},
+  {ym:"2025-07",year:2025,dist:76,runs:8,elev:1753,avgdist:9.5,pace:6.04,hr:150},
+  {ym:"2025-08",year:2025,dist:76,runs:6,elev:1990,avgdist:12.7,pace:6.06,hr:167},
+  {ym:"2025-09",year:2025,dist:141,runs:16,elev:3138,avgdist:8.8,pace:6.07,hr:151},
+  {ym:"2025-10",year:2025,dist:107,runs:14,elev:2447,avgdist:7.6,pace:6.06,hr:153},
+  {ym:"2025-11",year:2025,dist:81,runs:9,elev:1295,avgdist:9.0,pace:5.65,hr:153},
+  {ym:"2025-12",year:2025,dist:80,runs:10,elev:1752,avgdist:8.0,pace:5.56,hr:156},
+  {ym:"2026-01",year:2026,dist:48,runs:5,elev:814,avgdist:9.5,pace:5.68,hr:167},
+  {ym:"2026-02",year:2026,dist:100,runs:10,elev:1559,avgdist:10.0,pace:5.63,hr:160},
+  {ym:"2026-03",year:2026,dist:142,runs:13,elev:4098,avgdist:10.9,pace:5.84,hr:160},
+  {ym:"2026-04",year:2026,dist:149,runs:14,elev:3136,avgdist:10.7,pace:6.33,hr:139},
+  {ym:"2026-05",year:2026,dist:138,runs:14,elev:3187,avgdist:9.8,pace:6.05,hr:150},
+  {ym:"2026-06",year:2026,dist:9,runs:1,elev:151,avgdist:8.7,pace:5.12,hr:160}
+];
+const BUCKET_LABELS = ["<3","3-5","5-7","7-10","10-15","15-21","21+"];
+const BUCKETS = {
+  2021:[14, 11, 15, 1, 0, 0, 0], 2022:[7, 3, 0, 0, 0, 0, 0], 2023:[1, 4, 1, 2, 0, 0, 0], 2024:[15, 10, 7, 8, 3, 0, 0], 2025:[14, 27, 26, 21, 24, 10, 7], 2026:[2, 2, 12, 13, 21, 3, 4]
+};
+const SCATTER = [
+  {x:160,y:5.12,year:2026},{x:178,y:5.55,year:2026},{x:129,y:6.55,year:2026},{x:141,y:6.37,year:2026},
+  {x:140,y:6.34,year:2026},{x:150,y:5.72,year:2026},{x:154,y:5.53,year:2026},{x:163,y:5.59,year:2026},
+  {x:168,y:5.36,year:2026},{x:136,y:6.17,year:2026},{x:162,y:6.4,year:2026},{x:137,y:5.78,year:2026},
+  {x:137,y:5.76,year:2026},{x:163,y:4.84,year:2026},{x:135,y:6.3,year:2026},{x:140,y:5.91,year:2026},
+  {x:155,y:6.63,year:2026},{x:163,y:5.3,year:2026},{x:164,y:5.37,year:2026},{x:125,y:6.33,year:2026},
+  {x:169,y:5.95,year:2026},{x:125,y:6.75,year:2026},{x:139,y:6.69,year:2026},{x:171,y:5.39,year:2026},
+  {x:146,y:6.63,year:2026},{x:137,y:6.56,year:2026},{x:164,y:6.56,year:2026},{x:143,y:6.21,year:2026},
+  {x:157,y:6.28,year:2026},{x:157,y:7.19,year:2026},{x:166,y:4.96,year:2026},{x:165,y:6.67,year:2026},
+  {x:166,y:6.48,year:2026},{x:169,y:5.91,year:2026},{x:169,y:4.74,year:2026},{x:159,y:5.65,year:2026},
+  {x:163,y:4.34,year:2026},{x:171,y:5.79,year:2026},{x:155,y:5.24,year:2026},{x:169,y:5.55,year:2026},
+  {x:161,y:5.62,year:2026},{x:158,y:6.5,year:2026},{x:161,y:4.91,year:2026},{x:171,y:5.93,year:2026},
+  {x:153,y:6.52,year:2026},{x:181,y:4.52,year:2026},{x:167,y:6.13,year:2026},{x:161,y:5.63,year:2026},
+  {x:172,y:5.6,year:2026},{x:168,y:4.33,year:2025},{x:156,y:5.93,year:2025},{x:173,y:6.56,year:2025},
+  {x:151,y:5.62,year:2025},{x:163,y:5.34,year:2025},{x:145,y:5.91,year:2025},{x:168,y:4.59,year:2025},
+  {x:149,y:5.64,year:2025},{x:160,y:5.14,year:2025},{x:173,y:4.7,year:2025},{x:149,y:5.46,year:2025},
+  {x:149,y:6.26,year:2025},{x:149,y:6.51,year:2025},{x:168,y:5.22,year:2025},{x:160,y:5.66,year:2025},
+  {x:141,y:6.14,year:2025},{x:149,y:6.83,year:2025},{x:156,y:6.93,year:2025},{x:142,y:7.05,year:2025},
+  {x:151,y:6.81,year:2025},{x:171,y:5.25,year:2025},{x:148,y:6.82,year:2025},{x:150,y:6.15,year:2025},
+  {x:143,y:6.15,year:2025},{x:144,y:5.35,year:2025},{x:170,y:4.55,year:2025},{x:148,y:5.89,year:2025},
+  {x:143,y:6.16,year:2025},{x:143,y:6.19,year:2025},{x:149,y:6.47,year:2025},{x:150,y:5.99,year:2025},
+  {x:148,y:6.06,year:2025},{x:153,y:5.71,year:2025},{x:168,y:6.4,year:2025},{x:135,y:6.75,year:2025},
+  {x:175,y:5.62,year:2025},{x:166,y:5.56,year:2025},{x:151,y:6.31,year:2025},{x:159,y:6.65,year:2025},
+  {x:170,y:4.98,year:2025},{x:171,y:5.21,year:2025},{x:171,y:5.22,year:2025},{x:171,y:6.2,year:2025},
+  {x:173,y:5.5,year:2025},{x:157,y:6.9,year:2025},{x:180,y:5.09,year:2025},{x:157,y:5.67,year:2025},
+  {x:163,y:5.75,year:2025},{x:151,y:6.0,year:2025},{x:143,y:5.88,year:2025},{x:166,y:5.19,year:2025},
+  {x:164,y:6.47,year:2025},{x:155,y:6.03,year:2025},{x:147,y:5.8,year:2025},{x:164,y:4.88,year:2025},
+  {x:159,y:5.46,year:2025},{x:167,y:5.59,year:2025},{x:171,y:6.16,year:2025},{x:176,y:5.13,year:2025},
+  {x:178,y:5.18,year:2025},{x:170,y:4.87,year:2025},{x:163,y:5.96,year:2025},{x:169,y:5.72,year:2025},
+  {x:171,y:4.95,year:2025},{x:150,y:6.37,year:2025},{x:137,y:6.86,year:2025},{x:151,y:7.05,year:2025},
+  {x:150,y:5.49,year:2025},{x:141,y:6.63,year:2025},{x:146,y:6.76,year:2025},{x:145,y:6.32,year:2025},
+  {x:153,y:6.71,year:2025},{x:169,y:5.45,year:2025},{x:164,y:5.39,year:2025},{x:153,y:6.14,year:2025},
+  {x:143,y:5.16,year:2025},{x:143,y:6.73,year:2025},{x:153,y:5.65,year:2025},{x:147,y:5.89,year:2025},
+  {x:148,y:6.55,year:2025},{x:169,y:4.97,year:2025},{x:179,y:4.59,year:2025},{x:171,y:5.6,year:2025},
+  {x:148,y:6.34,year:2025},{x:144,y:6.49,year:2025},{x:176,y:5.03,year:2025},{x:169,y:4.98,year:2025},
+  {x:156,y:6.83,year:2025},{x:153,y:5.51,year:2025},{x:168,y:4.67,year:2025},{x:161,y:5.16,year:2025},
+  {x:146,y:6.11,year:2025},{x:167,y:5.32,year:2025},{x:172,y:4.91,year:2025},{x:180,y:4.21,year:2024},
+  {x:140,y:6.91,year:2024},{x:180,y:4.9,year:2024},{x:172,y:5.24,year:2024},{x:168,y:5.8,year:2024},
+  {x:165,y:4.99,year:2024},{x:163,y:5.97,year:2024},{x:174,y:5.04,year:2024},{x:177,y:5.07,year:2024},
+  {x:175,y:5.09,year:2024},{x:166,y:5.28,year:2024},{x:171,y:5.69,year:2024},{x:179,y:5.1,year:2024},
+  {x:163,y:5.28,year:2024},{x:175,y:5.45,year:2024},{x:176,y:5.05,year:2024},{x:175,y:5.39,year:2024},
+  {x:173,y:5.15,year:2024},{x:177,y:4.85,year:2024},{x:173,y:4.97,year:2024},{x:173,y:5.0,year:2024},
+  {x:175,y:5.16,year:2024},{x:175,y:5.08,year:2024},{x:167,y:5.4,year:2024},{x:165,y:5.17,year:2024},
+  {x:180,y:5.41,year:2024},{x:177,y:4.91,year:2024},{x:177,y:5.16,year:2023},{x:174,y:5.54,year:2023},
+  {x:176,y:5.4,year:2023},{x:176,y:5.18,year:2023},{x:178,y:5.38,year:2023},{x:178,y:5.44,year:2023},
+  {x:174,y:5.6,year:2023},{x:174,y:5.67,year:2022},{x:171,y:5.59,year:2022},{x:175,y:5.47,year:2022},
+  {x:171,y:5.41,year:2021},{x:173,y:5.52,year:2021},{x:173,y:5.51,year:2021},{x:148,y:5.25,year:2021},
+  {x:165,y:5.27,year:2021},{x:166,y:5.45,year:2021},{x:177,y:5.57,year:2021},{x:171,y:5.55,year:2021},
+  {x:147,y:7.01,year:2021},{x:171,y:5.73,year:2021},{x:176,y:5.97,year:2021},{x:176,y:5.35,year:2021},
+  {x:174,y:5.47,year:2021},{x:164,y:5.88,year:2021},{x:173,y:5.27,year:2021},{x:175,y:5.52,year:2021},
+  {x:171,y:5.62,year:2021},{x:173,y:4.93,year:2021},{x:173,y:5.77,year:2021},{x:173,y:4.96,year:2021},
+  {x:172,y:5.21,year:2021},{x:175,y:5.15,year:2021},{x:179,y:5.22,year:2021},{x:174,y:5.27,year:2021}
+];
+const YEARS = [2021,2022,2023,2024,2025,2026];
+
+// ---- helpers ----
+function fmtPace(p){ if(p==null) return "—"; const m=Math.floor(p); let s=Math.round((p-m)*60); let mm=m; if(s===60){mm++;s=0;} return mm+":"+String(s).padStart(2,"0"); }
+function cumulative(arr){ let t=0; return arr.map(v=>t+=v); }
+
+let activeYears = new Set(YEARS);
+function filtered(){ return MONTHLY.filter(d=>activeYears.has(d.year)); }
+
+function render(){
+  const data = filtered();
+  const totalDist = Math.round(data.reduce((a,d)=>a+d.dist,0));
+  const totalRuns = data.reduce((a,d)=>a+d.runs,0);
+  const totalElev = data.reduce((a,d)=>a+d.elev,0);
+  document.getElementById("kpi-dist").textContent = totalDist.toLocaleString()+" km";
+  document.getElementById("kpi-runs").textContent = totalRuns;
+  document.getElementById("kpi-elev").textContent = (totalElev/1000).toFixed(1)+"k m";
+  const evspans=document.querySelectorAll(".everest");
+  if(evspans[0]) evspans[0].textContent = "≈ "+(totalElev/8849).toFixed(1)+" × Everest";
+
+  drawBars("c-vol", data.map(d=>d.dist), data.map(d=>d.ym), "km", "#E8743B");
+  drawBars("c-runs", data.map(d=>d.runs), data.map(d=>d.ym), "runs", "#2E86AB");
+  drawBars("c-elev", data.map(d=>d.elev), data.map(d=>d.ym), "m", "#27AE60");
+  drawBars("c-avgdist", data.map(d=>d.avgdist), data.map(d=>d.ym), "km/run", "#8E44AD");
+  drawLine("c-pace", data.map(d=>d.pace), data.map(d=>d.ym), "min/km", "#E8743B", true);
+  drawLine("c-hr", data.map(d=>d.hr), data.map(d=>d.ym), "bpm", "#C0392B", false);
+  drawCumLine("c-cumdist", cumulative(data.map(d=>d.dist)), data.map(d=>d.ym), "km", "#E8743B");
+  drawCumLine("c-cumelev", cumulative(data.map(d=>d.elev)), data.map(d=>d.ym), "m", "#2E86AB");
+  drawScatter("c-scatter");
+  drawBuckets("c-buckets");
+}
+
+const TICK = "var(--muted)";
+function svgWrap(w,h){ return `<svg viewBox="0 0 ${w} ${h}" width="100%" preserveAspectRatio="xMidYMid meet" font-family="var(--mono)">`; }
+
+function drawBars(id, vals, labels, unit, color){
+  const el=document.getElementById(id);
+  const W=720,H=240,padL=42,padB=46,padT=12,padR=8;
+  const max=Math.max(...vals.filter(v=>v!=null),1);
+  const n=vals.length, bw=(W-padL-padR)/Math.max(n,1);
+  let s=svgWrap(W,H);
+  for(let g=0;g<=4;g++){ const y=padT+(H-padT-padB)*g/4; const v=Math.round(max*(1-g/4));
+    s+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--grid)" stroke-width="1"/>`;
+    s+=`<text x="${padL-6}" y="${y+3}" text-anchor="end" font-size="9" fill="${TICK}">${v}</text>`; }
+  vals.forEach((v,i)=>{ if(v==null)return; const h=(H-padT-padB)*v/max; const x=padL+i*bw+bw*0.12; const y=H-padB-h;
+    s+=`<rect x="${x}" y="${y}" width="${bw*0.76}" height="${h}" fill="${color}" rx="1.5"><title>${labels[i]}: ${v} ${unit}</title></rect>`; });
+  labels.forEach((l,i)=>{ if(n<=24 || i%2===0){ const x=padL+i*bw+bw/2;
+    s+=`<text x="${x}" y="${H-padB+12}" text-anchor="end" font-size="8" fill="${TICK}" transform="rotate(-55 ${x} ${H-padB+12})">${l.slice(2)}</text>`; }});
+  s+="</svg>"; el.innerHTML=s;
+}
+function drawLine(id, vals, labels, unit, color, invert){
+  const el=document.getElementById(id);
+  const W=720,H=240,padL=44,padB=46,padT=12,padR=8;
+  const clean=vals.filter(v=>v!=null);
+  let max=Math.max(...clean), min=Math.min(...clean); const pad=(max-min)*0.15||1; max+=pad; min-=pad;
+  const n=vals.length; const xs=i=>padL+(W-padL-padR)*(n<=1?0.5:i/(n-1));
+  const ys=v=>padT+(H-padT-padB)*(1-(v-min)/(max-min));
+  let s=svgWrap(W,H);
+  for(let g=0;g<=4;g++){ const y=padT+(H-padT-padB)*g/4; const v=(max-(max-min)*g/4);
+    s+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--grid)" stroke-width="1"/>`;
+    s+=`<text x="${padL-6}" y="${y+3}" text-anchor="end" font-size="9" fill="${TICK}">${unit==="min/km"?fmtPace(v):Math.round(v)}</text>`; }
+  let dd="",started=false;
+  vals.forEach((v,i)=>{ if(v==null){started=false;return;} const cmd=started?"L":"M"; dd+=`${cmd}${xs(i)},${ys(v)} `; started=true; });
+  s+=`<path d="${dd}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linejoin="round"/>`;
+  vals.forEach((v,i)=>{ if(v==null)return; s+=`<circle cx="${xs(i)}" cy="${ys(v)}" r="2.8" fill="${color}"><title>${labels[i]}: ${unit==="min/km"?fmtPace(v)+"/km":v+" "+unit}</title></circle>`; });
+  if(invert){ s+=`<text x="${W-padR}" y="${padT+10}" text-anchor="end" font-size="8" fill="${TICK}" font-style="italic">higher = slower</text>`; }
+  labels.forEach((l,i)=>{ if(n<=24 || i%2===0){ s+=`<text x="${xs(i)}" y="${H-padB+12}" text-anchor="end" font-size="8" fill="${TICK}" transform="rotate(-55 ${xs(i)} ${H-padB+12})">${l.slice(2)}</text>`; }});
+  s+="</svg>"; el.innerHTML=s;
+}
+function drawCumLine(id, vals, labels, unit, color){
+  const el=document.getElementById(id);
+  const W=720,H=240,padL=50,padB=46,padT=12,padR=8;
+  const max=Math.max(...vals,1); const n=vals.length;
+  const xs=i=>padL+(W-padL-padR)*(n<=1?0.5:i/(n-1)); const ys=v=>padT+(H-padT-padB)*(1-v/max);
+  let s=svgWrap(W,H);
+  for(let g=0;g<=4;g++){ const y=padT+(H-padT-padB)*g/4; const v=Math.round(max*(1-g/4));
+    s+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--grid)" stroke-width="1"/>`;
+    s+=`<text x="${padL-6}" y="${y+3}" text-anchor="end" font-size="9" fill="${TICK}">${v.toLocaleString()}</text>`; }
+  let area=`M${xs(0)},${H-padB} `, line="";
+  vals.forEach((v,i)=>{ const cmd=i===0?"M":"L"; line+=`${cmd}${xs(i)},${ys(v)} `; area+=`L${xs(i)},${ys(v)} `; });
+  area+=`L${xs(n-1)},${H-padB} Z`;
+  s+=`<path d="${area}" fill="${color}" opacity="0.12"/>`;
+  s+=`<path d="${line}" fill="none" stroke="${color}" stroke-width="2.4"/>`;
+  vals.forEach((v,i)=>{ s+=`<circle cx="${xs(i)}" cy="${ys(v)}" r="2.4" fill="${color}"><title>${labels[i]}: ${Math.round(v).toLocaleString()} ${unit}</title></circle>`; });
+  labels.forEach((l,i)=>{ if(n<=24 || i%2===0){ s+=`<text x="${xs(i)}" y="${H-padB+12}" text-anchor="end" font-size="8" fill="${TICK}" transform="rotate(-55 ${xs(i)} ${H-padB+12})">${l.slice(2)}</text>`; }});
+  s+="</svg>"; el.innerHTML=s;
+}
+function drawScatter(id){
+  const el=document.getElementById(id);
+  const pts=SCATTER.filter(p=>activeYears.has(p.year));
+  const W=720,H=300,padL=44,padB=42,padT=14,padR=12;
+  const xmin=120,xmax=185,ymin=4,ymax=7.5;
+  const xs=v=>padL+(W-padL-padR)*(v-xmin)/(xmax-xmin);
+  const ys=v=>padT+(H-padT-padB)*(1-(v-ymin)/(ymax-ymin));
+  const cmap={2021:"#94a3b8",2022:"#94a3b8",2023:"#64748b",2024:"#2E86AB",2025:"#E8743B",2026:"#C0392B"};
+  let s=svgWrap(W,H);
+  for(let v=125;v<=185;v+=10){ s+=`<line x1="${xs(v)}" y1="${padT}" x2="${xs(v)}" y2="${H-padB}" stroke="var(--grid)"/>`;
+    s+=`<text x="${xs(v)}" y="${H-padB+14}" text-anchor="middle" font-size="9" fill="${TICK}">${v}</text>`; }
+  for(let v=4;v<=7;v++){ s+=`<line x1="${padL}" y1="${ys(v)}" x2="${W-padR}" y2="${ys(v)}" stroke="var(--grid)"/>`;
+    s+=`<text x="${padL-6}" y="${ys(v)+3}" text-anchor="end" font-size="9" fill="${TICK}">${fmtPace(v)}</text>`; }
+  pts.forEach(p=>{ s+=`<circle cx="${xs(p.x)}" cy="${ys(p.y)}" r="4" fill="${cmap[p.year]}" opacity="0.78"><title>${p.x} bpm · ${fmtPace(p.y)}/km · ${p.year}</title></circle>`; });
+  s+=`<text x="${W/2}" y="${H-4}" text-anchor="middle" font-size="9" fill="${TICK}">Avg HR (bpm)  →</text>`;
+  s+="</svg>"; el.innerHTML=s;
+}
+function drawBuckets(id){
+  const el=document.getElementById(id);
+  const sel=YEARS.filter(y=>activeYears.has(y));
+  const totals=BUCKET_LABELS.map((_,i)=>sel.reduce((a,y)=>a+(BUCKETS[y]?BUCKETS[y][i]:0),0));
+  const W=720,H=240,padL=36,padB=40,padT=12,padR=8;
+  const max=Math.max(...totals,1); const n=totals.length, bw=(W-padL-padR)/n;
+  let s=svgWrap(W,H);
+  for(let g=0;g<=4;g++){ const y=padT+(H-padT-padB)*g/4;
+    s+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--grid)"/>`;
+    s+=`<text x="${padL-6}" y="${y+3}" text-anchor="end" font-size="9" fill="${TICK}">${Math.round(max*(1-g/4))}</text>`; }
+  totals.forEach((v,i)=>{ const h=(H-padT-padB)*v/max; const x=padL+i*bw+bw*0.15; const y=H-padB-h;
+    s+=`<rect x="${x}" y="${y}" width="${bw*0.7}" height="${h}" fill="#8E44AD" rx="2"><title>${BUCKET_LABELS[i]} km: ${v} runs</title></rect>`;
+    s+=`<text x="${x+bw*0.35}" y="${y-4}" text-anchor="middle" font-size="9" fill="var(--ink)">${v}</text>`;
+    s+=`<text x="${padL+i*bw+bw/2}" y="${H-padB+14}" text-anchor="middle" font-size="9" fill="${TICK}">${BUCKET_LABELS[i]}</text>`; });
+  s+="</svg>"; el.innerHTML=s;
+}
+
+function buildChips(){
+  const wrap=document.getElementById("chips");
+  YEARS.forEach(y=>{ const b=document.createElement("button"); b.className="chip on"; b.dataset.year=y;
+    const sparse=(y<=2023); b.innerHTML = y + (sparse?' <span class="dot">·</span>':'');
+    b.title = sparse ? "Sparse data — anecdotal" : "";
+    b.onclick=()=>{ if(activeYears.has(y)){activeYears.delete(y);b.classList.remove("on");} else {activeYears.add(y);b.classList.add("on");} render(); };
+    wrap.appendChild(b); });
+  document.getElementById("btn-all").onclick=()=>{ activeYears=new Set(YEARS); document.querySelectorAll(".chip").forEach(c=>c.classList.add("on")); render(); };
+  document.getElementById("btn-serious").onclick=()=>{ activeYears=new Set([2024,2025,2026]); document.querySelectorAll(".chip").forEach(c=>{ c.classList.toggle("on", activeYears.has(+c.dataset.year)); }); render(); };
+}
+
+document.getElementById("root").innerHTML = `
+<style>
+:root{--bg:#faf8f5;--card:#fff;--ink:#1a1a1a;--muted:#8a8580;--grid:#ece8e2;--orange:#E8743B;--line:#e5e0d8;
+--serif:"Cormorant Garamond",Georgia,serif;--mono:"DM Mono",ui-monospace,Menlo,monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}
+#root{background:var(--bg);color:var(--ink);font-family:var(--mono);padding:28px 22px 60px;}
+.backbar{max-width:1080px;margin:0 auto 18px;}
+.backbar a{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;transition:.15s;}
+.backbar a:hover{color:var(--ink);border-bottom-color:var(--ink);}
+.head{max-width:1080px;margin:0 auto 22px;border-bottom:2px solid var(--ink);padding-bottom:16px;}
+.head h1{font-family:var(--serif);font-weight:300;font-size:48px;line-height:.95;letter-spacing:-1px;}
+.head .sub{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:8px;}
+.controls{max-width:1080px;margin:0 auto 22px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.controls .label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-right:4px;}
+.chip{font-family:var(--mono);font-size:13px;padding:6px 13px;border:1.5px solid var(--line);background:var(--card);
+border-radius:20px;cursor:pointer;color:var(--muted);transition:.15s;}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+.chip .dot{color:var(--orange);font-weight:bold;}
+.preset{font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;
+border:1.5px solid var(--ink);background:transparent;border-radius:20px;cursor:pointer;color:var(--ink);}
+.preset:hover{background:var(--ink);color:#fff;}
+.kpis{max-width:1080px;margin:0 auto 26px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;}
+.kpi .v{font-family:var(--serif);font-size:34px;font-weight:400;line-height:1;}
+.kpi .k{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:8px;}
+.kpi .everest{font-size:10px;color:var(--orange);margin-top:5px;}
+.grid{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 16px 10px;}
+.card.wide{grid-column:1/-1;}
+.card h3{font-family:var(--serif);font-size:21px;font-weight:500;}
+.card .note{font-size:11px;color:var(--muted);margin:2px 0 10px;line-height:1.4;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:10px;color:var(--muted);margin-top:6px;}
+.legend span{display:inline-flex;align-items:center;gap:5px;}
+.legend i{width:9px;height:9px;border-radius:50%;display:inline-block;}
+.foot{max-width:1080px;margin:34px auto 0;font-size:10px;letter-spacing:1px;color:var(--muted);text-align:center;}
+@media(max-width:760px){.grid{grid-template-columns:1fr;}.kpis{grid-template-columns:1fr;}.head h1{font-size:34px;}}
+</style>
+<div class="backbar"><a href="/">← jaumepuig.com</a></div>
+<div class="head">
+  <h1>Running</h1>
+  <div class="sub">288 runs · April 2021 – June 2026 · Sant Sadurni d'Anoia</div>
+</div>
+<div class="controls">
+  <span class="label">Years</span>
+  <div id="chips" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+  <span style="flex:1"></span>
+  <button class="preset" id="btn-serious">Serious era (24–26)</button>
+  <button class="preset" id="btn-all">All</button>
+</div>
+<div class="kpis">
+  <div class="kpi"><div class="v" id="kpi-dist">—</div><div class="k">Distance</div></div>
+  <div class="kpi"><div class="v" id="kpi-runs">—</div><div class="k">Runs</div></div>
+  <div class="kpi"><div class="v" id="kpi-elev">—</div><div class="k">Elevation gain</div><div class="everest"></div></div>
+</div>
+<div class="grid">
+  <div class="card"><h3>Monthly volume</h3><div class="note">Distance per month</div><div id="c-vol"></div></div>
+  <div class="card"><h3>Runs per month</h3><div class="note">Frequency</div><div id="c-runs"></div></div>
+  <div class="card"><h3>Monthly elevation</h3><div class="note">Climbing per month</div><div id="c-elev"></div></div>
+  <div class="card"><h3>Avg distance / run</h3><div class="note">Mean run length per month</div><div id="c-avgdist"></div></div>
+  <div class="card"><h3>Average pace</h3><div class="note">Monthly mean, runs ≥2 km</div><div id="c-pace"></div></div>
+  <div class="card"><h3>Average heart rate</h3><div class="note">Monthly mean</div><div id="c-hr"></div></div>
+  <div class="card"><h3>Cumulative distance</h3><div class="note">Running total over the selected range</div><div id="c-cumdist"></div></div>
+  <div class="card"><h3>Cumulative elevation</h3><div class="note">Running total of vertical metres</div><div id="c-cumelev"></div></div>
+  <div class="card wide"><h3>Pace vs heart rate</h3><div class="note">Each dot is one run (≥3 km). Further right = higher HR, lower = faster pace.</div><div id="c-scatter"></div>
+    <div class="legend"><span><i style="background:#2E86AB"></i>2024</span><span><i style="background:#E8743B"></i>2025</span><span><i style="background:#C0392B"></i>2026</span><span><i style="background:#94a3b8"></i>2021–23</span></div></div>
+  <div class="card wide"><h3>Runs by distance</h3><div class="note">Count per distance band across selected years</div><div id="c-buckets"></div></div>
+</div>
+<div class="foot">Data from Strava · Built as a static page · jaumepuig.com/run</div>
+`;
+buildChips();
+render();
+</script>
+</body>
+</html>

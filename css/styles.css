@@ -3696,6 +3696,22 @@ img.u-pull-left {
     transition     : max-height 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
 }
 
+.hobby-item__link {
+    display         : inline-block;
+    margin-top      : 0.8rem;
+    color           : #E8743B;
+    font-weight     : 500;
+    text-decoration : none;
+    border-bottom   : 1px solid transparent;
+    transition      : border-color 0.2s ease;
+}
+
+.hobby-item__link:hover,
+.hobby-item__link:focus {
+    color         : #E8743B;
+    border-bottom : 1px solid #E8743B;
+}
+
 .hobby-item:hover .hobby-item__img {
     transform : scale(1.05);
 }
