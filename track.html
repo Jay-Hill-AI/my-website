@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El meu pla — Jaume Puig Piñol</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+</head>
+<body>
+<div id="root"></div>
+<script type="application/json" id="plandata">
+{
+  "phases": [
+    {
+      "id": "f1",
+      "name": "Fase 1 — Base aeròbica",
+      "sub": "12 setmanes · 15 juny – 6 set 2026 · base i força",
+      "accent": "#C85A2E",
+      "start": "2026-06-15"
+    },
+    {
+      "id": "f2a",
+      "name": "Fase 2a — Prep Pota Roja",
+      "sub": "6 setmanes · ~oct 2026 · muntanya · 24K / 1.114m",
+      "accent": "#2E7D43",
+      "start": "2026-09-28"
+    },
+    {
+      "id": "f2b",
+      "name": "Fase 2b — Bloc Marató Barcelona",
+      "sub": "17 setmanes · nov 2026 – 14 març 2027 · objectiu 3:30",
+      "accent": "#2E7D43",
+      "start": "2026-11-16"
+    },
+    {
+      "id": "f3",
+      "name": "Fase 3 — Conversió Zegama",
+      "sub": "per definir · després de Barcelona",
+      "accent": "#7A4FA3",
+      "start": null,
+      "placeholder": true
+    }
+  ]
+}
+</script>
+<script>
+// ===== PLA: dades de setmanes (generades des dels PDFs) =====
+// kinds: core / mp / str / opt
+const WEEKS = {
+ f1: buildF1(),
+ f2a: buildF2a(),
+ f2b: buildF2b(),
+ f3: []
+};
+
+function S(kind,title,hr,note){return {kind,title,hr,note};}
+
+function buildF1(){
+  const focus=["Adaptació · trencar la zona gris","Assentar la base","Pujar volum suau","Setmana suau · recuperar",
+   "Tornar a carregar","Volum sòlid","Pic de bloc","Setmana suau","Bloc fort","Pic de la fase","Mantenir","Suau + test"];
+  const dates=["15–21 juny","22–28 juny","29 juny – 5 jul","6–12 jul","13–19 jul","20–26 jul",
+   "27 jul – 2 ago","3–9 ago","10–16 ago","17–23 ago","24–30 ago","31 ago – 6 set"];
+  const longmin=[90,105,115,90,120,135,145,110,150,165,150,120];
+  const cut=[0,0,0,1,0,0,0,1,0,0,0,1];
+  const q=[["Sèries en pujada","Z4–Z5","6×2min pujada forta + recuperació"],
+   ["Tempo en pujada","Z4","20min pujada sostinguda al llindar"],
+   ["Sèries curtes","Z5","8×90s en pujada, recuperació completa"],
+   ["Tempo en blocs","Z4","2×10min al llindar (suau)"],
+   ["Sèries en pujada","Z4–Z5","7×2min pujada forta"],
+   ["Tempo en pujada","Z4","24min al llindar"],
+   ["Sèries curtes","Z5","9×90s en pujada"],
+   ["Tempo en blocs","Z4","2×12min al llindar (suau)"],
+   ["Sèries en pujada","Z4–Z5","8×2min pujada forta"],
+   ["Tempo en pujada","Z4","28min al llindar"],
+   ["Sèries curtes","Z5","10×90s en pujada"],
+   ["Tempo en blocs","Z4","2×12min (pre-test)"]];
+  const easy=["45–60","45–60","50–60","40–50","50–65","55–65","55–70","45–55","60–70","60–75","60–70","45–55"];
+  return Array.from({length:12},(_,i)=>({
+   focus:focus[i],dates:dates[i],badge:cut[i]?"SUAU":null,
+   sessions:[
+    S("core",`Suau — ${easy[i]} min`,"Z2","Tranquil per obrir la setmana. FC sota 150."),
+    S("str","Força bàsica — 25 min","Casa","Circuit casolà: sentadetes, zancades, pont de glutis, talons, planxa."),
+    S("core",`Qualitat — ${q[i][0]}`,q[i][1],q[i][2]),
+    S("opt","Recuperació — 30–40 min","Z1","Trot molt suau o descans. Si dubtes, descansa."),
+    S("opt","Força — 20 min","Casa","Segona dosi si la setmana ho permet. Una cama, excèntric."),
+    S("core",`Llarg — ${longmin[i]} min`,"Z2","Suau per terreny ondulat. Camina les pujades; FC sota 150.")
+   ]}));
+}
+
+function buildF2a(){
+  const focus=["Arrencada · cames de muntanya","Pujar desnivell","Pic de càrrega · simular cursa","Última càrrega forta","Afinament","Setmana de cursa"];
+  const dates=["28 set – 4 oct","5–11 oct","12–18 oct","19–25 oct","26 oct – 1 nov","2–8 nov"];
+  const longmin=[120,135,150,140,95,60];
+  const vert=["~800m","~1000m","~1100m","~1000m","~600m","suau"];
+  const q=[["Baixades tècniques","Z3–Z4","6×1,5min baixada controlada"],
+   ["Pujada sostinguda","Z4","2×10min pujant al llindar"],
+   ["Simulació de cursa","Z3–Z4","3×(5min puja + 3min baixa)"],
+   ["Ritme de cursa","Z3","30min a ritme objectiu"],
+   ["Activació curta","Z3","4×1min viu, recuperació completa"],
+   ["Obertura pre-cursa","Z2–Z3","2×2min ritme cursa"]];
+  const easy=["45–60","50–60","50–65","45–55","40","30"];
+  const taper=[0,0,0,0,1,1];
+  return Array.from({length:6},(_,i)=>({
+   focus:focus[i],dates:dates[i],badge:i===5?"CURSA":(taper[i]?"AFINAMENT":null),
+   sessions:[
+    S("core",`Suau — ${easy[i]} min`,"Z2","Tranquil per terreny ondulat. FC sota 150."),
+    S("str","Força bàsica — 25 min","Casa","Èmfasi excèntric: prepara els quàdriceps per les baixades."),
+    S("core",`Qualitat — ${q[i][0]}`,q[i][1],q[i][2]),
+    S("opt","Recuperació — 30–40 min","Z1","Trot molt suau o descans."),
+    S("opt","Força — 20 min","Casa","Segona dosi si tens temps."),
+    S("core",`Llarg — ${longmin[i]} min · ${vert[i]}`,"Z2","Muntanya acumulant desnivell. Practica menjar i beure.")
+   ]}));
+}
+
+function buildF2b(){
+  const focus=["Reprendre · muntanya a carretera","Introduir ritme marató","Acumular ritme objectiu","Setmana suau",
+   "Bloc fort · allargar","Volum i ritme pugen","Primer llarg gran amb MP","Setmana suau","Tornar a carregar",
+   "Llarg clau · 18km a ritme","Pic del bloc · llarg decisiu","Bloc fort · acumular","Tornar a carregar","Últim llarg gran",
+   "Inici taper","Taper · cames fresques","Setmana de cursa · 14-M"];
+  const dates=["16–22 nov","23–29 nov","30 nov – 6 des","7–13 des","14–20 des","21–27 des","28 des – 3 gen",
+   "4–10 gen","11–17 gen","18–24 gen","25–31 gen","1–7 feb","8–14 feb","15–21 feb","22–28 feb","1–7 març","8–14 març"];
+  const km=[22,24,26,20,28,30,32,22,30,32,34,30,30,32,26,20,13];
+  const mp=[0,6,8,0,10,12,14,0,16,18,18,16,16,16,10,8,6];
+  const cut=[0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,1,0];
+  const race=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
+  const th=[["Llindar","2×8min al llindar"],["Llindar","3×6min al llindar"],["Sèries 10K","5×1km a ritme 10K"],
+   ["Llindar suau","2×6min (suau)"],["Tempo","20min continus"],["Sèries","6×1km a ritme 10K"],
+   ["Tempo llarg","2×12min al llindar"],["Llindar suau","2×6min (suau)"],["Tempo","25min continus"],
+   ["Sèries MP+","4×2km a ritme marató"],["Tempo","2×15min al llindar"],["Sèries","6×1km a ritme 10K"],
+   ["Tempo","2×12min al llindar"],["Sèries","5×1km a ritme 10K"],["Tempo curt","2×8min"],
+   ["Activació","4×90s a ritme marató"],["Obertura","3×2min ritme marató (pre-cursa)"]];
+  const easy=["50–60","50–65","55–65","45–55","55–70","60–70","60–70","45–55","60–70","60–70","60–70","50–60","55–65","50–60","50–60","40–50","30–40"];
+  return Array.from({length:17},(_,i)=>{
+   const longSession = race[i]
+     ? S("mp","MARATÓ BARCELONA","Cursa","Diumenge 14 març. El gran dia. Objectiu 3:30 (4:59/km).")
+     : (mp[i]>0
+        ? S("mp",`Llarg amb ritme marató — ${km[i]} km`,"MP 4:59",`${km[i]-mp[i]}km suaus + ${mp[i]}km a 4:59/km. Busca terreny pla.`)
+        : S("core",`Llarg suau — ${km[i]} km`,"Z2",cut[i]?"Tots suaus. Setmana suau: recupera.":"Tots suaus. Construeix base."));
+   const sessions=[
+    S("core",`Suau — ${easy[i]} min`,"Z2","Tranquil. FC sota 150."),
+    S("str","Força bàsica — 25 min","Casa","Potència i economia: afegeix pes si pots."),
+    S("core",`Qualitat — ${th[i][0]}`,"Z4–Z5",th[i][1]),
+    S("opt","Recuperació — 30–40 min","Z1","Trot molt suau o descans."),
+    longSession
+   ];
+   if(!race[i]) sessions.push(S("opt","Força — 20 min","Casa","Segona dosi si tens temps."));
+   return {focus:focus[i],dates:dates[i],badge:race[i]?"MARATÓ":(cut[i]?"SUAU":null),sessions};
+  });
+}
+
+// ===== Estat / persistència =====
+const PHASES = JSON.parse(document.getElementById("plandata").textContent).phases;
+let STATE = {};      // key sessionId -> {done, ruta, fc, notes}
+let openWeek = {};   // phaseId -> week index expanded
+
+function sid(p,w,s){return `${p}:${w}:${s}`;}
+
+const LS_KEY = "training_state_v1";
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(raw) STATE = JSON.parse(raw);
+  }catch(e){ STATE = {}; }
+}
+let saveTimer=null;
+function queueSave(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(STATE)); flashSaved(); }
+    catch(e){ /* navegador sense localStorage o en mode privat */ }
+  },400);
+}
+function getRec(id){ return STATE[id] || {done:false,ruta:"",fc:"",notes:""}; }
+function setRec(id,patch){ STATE[id]=Object.assign(getRec(id),patch); queueSave(); }
+
+// ===== Càlculs =====
+function phaseProgress(pid){
+  const wks=WEEKS[pid]; let total=0,done=0;
+  wks.forEach((w,wi)=>w.sessions.forEach((s,si)=>{
+    if(s.kind==="opt") return; // només compten les core/mp/str per al %
+    total++; if(getRec(sid(pid,wi,si)).done) done++;
+  }));
+  return {done,total,pct: total?Math.round(100*done/total):0};
+}
+// quina és la "setmana actual": primera amb alguna sessió no feta; si totes fetes, l'última
+function currentWeek(pid){
+  const wks=WEEKS[pid];
+  for(let wi=0;wi<wks.length;wi++){
+    const some = wks[wi].sessions.some((s,si)=>s.kind!=="opt" && !getRec(sid(pid,wi,si)).done);
+    if(some) return wi;
+  }
+  return wks.length-1;
+}
+
+// ===== Render =====
+let activePhase = "f1";
+let saved=false;
+function flashSaved(){ const el=document.getElementById("saved"); if(!el)return; el.classList.add("show"); setTimeout(()=>el.classList.remove("show"),1100); }
+
+function kindMeta(k){
+  return {
+    core:{lbl:"Core",col:"var(--orange)"},
+    mp:{lbl:"Ritme marató",col:"var(--green)"},
+    str:{lbl:"Força",col:"var(--blue)"},
+    opt:{lbl:"Opcional",col:"var(--grey)"}
+  }[k];
+}
+
+function render(){
+  const ph = PHASES.find(p=>p.id===activePhase);
+  const wks = WEEKS[activePhase];
+  const cur = wks.length? currentWeek(activePhase):0;
+  if(openWeek[activePhase]===undefined) openWeek[activePhase]=cur;
+
+  let html = `<div class="wrap">`;
+  // header
+  html += `<header class="head">
+    <div class="kicker">Camí a Barcelona &amp; Zegama</div>
+    <div class="headrow"><h1>El meu pla</h1>
+      <div class="hbtns">
+        <button class="hbtn" id="btn-export" title="Exporta les dades">Exporta</button>
+        <button class="hbtn" id="btn-import" title="Importa les dades">Importa</button>
+      </div>
+    </div>
+  </header>`;
+
+  // phase tabs
+  html += `<nav class="tabs">`;
+  PHASES.forEach(p=>{
+    const pr = p.placeholder?null:phaseProgress(p.id);
+    const act = p.id===activePhase?"act":"";
+    const ph2 = p.placeholder?'<span class="soon">aviat</span>':`<span class="tpct">${pr.pct}%</span>`;
+    html += `<button class="tab ${act}" data-phase="${p.id}" ${p.placeholder?'disabled':''}>
+       <span class="tname">${p.name.split("—")[0].trim()}</span>${ph2}</button>`;
+  });
+  html += `</nav>`;
+
+  if(ph.placeholder){
+    html += `<div class="empty"><h2>${ph.name}</h2><p>Aquesta fase encara no està definida. La construirem després de la Marató de Barcelona, quan sapiguem com ha anat i quina serà la teva forma de partida cap a Zegama.</p></div>`;
+    html += `</div>`;
+    document.getElementById("root").innerHTML = html + styles();
+    bind(); return;
+  }
+
+  // phase progress bar
+  const pr = phaseProgress(activePhase);
+  html += `<section class="phasebar" style="--accent:${ph.accent}">
+    <div class="pbtop"><div><div class="pbname">${ph.name}</div><div class="pbsub">${ph.sub}</div></div>
+    <div class="pbnum">${pr.done}<span>/${pr.total}</span></div></div>
+    <div class="track"><div class="fill" style="width:${pr.pct}%"></div></div>
+    <div class="pbpct">${pr.pct}% completat · no compten les sessions opcionals</div>
+  </section>`;
+
+  // weeks
+  html += `<section class="weeks">`;
+  wks.forEach((w,wi)=>{
+    const open = openWeek[activePhase]===wi;
+    const isCur = wi===cur;
+    const wp = (()=>{let t=0,d=0;w.sessions.forEach((s,si)=>{if(s.kind==="opt")return;t++;if(getRec(sid(activePhase,wi,si)).done)d++;});return {t,d};})();
+    const allDone = wp.d===wp.t;
+    html += `<div class="week ${open?'open':''} ${isCur?'cur':''}" style="--accent:${ph.accent}">
+      <button class="whead" data-week="${wi}">
+        <span class="wleft">
+          ${isCur?'<span class="curdot"></span>':''}
+          <span class="wnum">Setmana ${wi+1}</span>
+          <span class="wdates">${w.dates}</span>
+          ${w.badge?`<span class="wbadge ${w.badge==='MARATÓ'||w.badge==='CURSA'?'race':''}">${w.badge}</span>`:''}
+        </span>
+        <span class="wright">
+          <span class="wcount ${allDone?'done':''}">${wp.d}/${wp.t}</span>
+          <span class="chev">${open?'▾':'▸'}</span>
+        </span>
+      </button>
+      <div class="wfocus">${w.focus}</div>`;
+    if(open){
+      html += `<div class="sessions">`;
+      w.sessions.forEach((s,si)=>{
+        const id=sid(activePhase,wi,si);
+        const rec=getRec(id);
+        const km=kindMeta(s.kind);
+        html += `<div class="sess ${rec.done?'sdone':''}" style="--k:${km.col}">
+          <div class="srow">
+            <button class="check ${rec.done?'on':''}" data-id="${id}" aria-label="Marca fet"></button>
+            <div class="sbody">
+              <div class="stop"><span class="ktag" style="background:${km.col}">${km.lbl}</span>
+                <span class="stitle">${s.title}</span><span class="shr">${s.hr}</span></div>
+              <div class="snote">${s.note}</div>
+            </div>
+          </div>
+          <div class="track-in">
+            <input class="fin" data-id="${id}" data-f="ruta" placeholder="Ruta" value="${esc(rec.ruta)}">
+            <input class="fin fc" data-id="${id}" data-f="fc" placeholder="FC" value="${esc(rec.fc)}">
+            <input class="fin" data-id="${id}" data-f="notes" placeholder="Notes" value="${esc(rec.notes)}">
+          </div>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+    html += `</div>`;
+  });
+  html += `</section>`;
+
+  html += `<div id="saved" class="savetoast">Desat</div>`;
+  html += `</div>`;
+  document.getElementById("root").innerHTML = html + styles();
+  bind();
+}
+
+function esc(s){return (s||"").replace(/"/g,"&quot;").replace(/</g,"&lt;");}
+
+function bind(){
+  document.querySelectorAll(".tab[data-phase]").forEach(b=>b.onclick=()=>{activePhase=b.dataset.phase;render();});
+  document.querySelectorAll(".whead").forEach(b=>b.onclick=()=>{
+    const wi=+b.dataset.week; openWeek[activePhase]= openWeek[activePhase]===wi?-1:wi; render();
+  });
+  document.querySelectorAll(".check").forEach(b=>b.onclick=()=>{
+    const id=b.dataset.id; setRec(id,{done:!getRec(id).done}); render();
+  });
+  document.querySelectorAll(".fin").forEach(inp=>{
+    inp.oninput=()=>{ const id=inp.dataset.id; setRec(id,{[inp.dataset.f]:inp.value}); };
+  });
+  const be=document.getElementById("btn-export");
+  if(be) be.onclick=exportData;
+  const bi=document.getElementById("btn-import");
+  if(bi) bi.onclick=importData;
+}
+
+function exportData(){
+  const blob=new Blob([JSON.stringify(STATE,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download="entrenament_dades.json"; a.click();
+  URL.revokeObjectURL(url);
+}
+function importData(){
+  const inp=document.createElement("input");
+  inp.type="file"; inp.accept="application/json";
+  inp.onchange=()=>{
+    const f=inp.files[0]; if(!f) return;
+    const r=new FileReader();
+    r.onload=()=>{ try{ STATE=JSON.parse(r.result); queueSave(); render(); }
+      catch(e){ alert("No s'ha pogut llegir el fitxer."); } };
+    r.readAsText(f);
+  };
+  inp.click();
+}
+
+function styles(){ return `<style>
+:root{--bg:#f3efe8;--card:#fff;--ink:#1c1a17;--muted:#857f76;--line:#e2ddd3;
+--orange:#C85A2E;--green:#2E7D43;--blue:#3E7CB1;--grey:#a39d93;--grey-soft:#f5f2ec;
+--serif:'Georgia',serif;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+#root{background:var(--bg);min-height:100vh;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;color:var(--ink);}
+.wrap{max-width:680px;margin:0 auto;padding:20px 16px 60px;}
+.head{margin-bottom:18px;}
+.headrow{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;}
+.hbtns{display:flex;gap:6px;}
+.hbtn{font-size:11px;font-family:inherit;background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:6px 11px;cursor:pointer;color:var(--muted);}
+.hbtn:hover{border-color:var(--ink);color:var(--ink);}
+.kicker{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);font-weight:700;}
+.head h1{font-family:var(--serif);font-weight:400;font-size:34px;letter-spacing:-.5px;margin-top:2px;}
+.tabs{display:flex;gap:6px;margin-bottom:18px;overflow-x:auto;padding-bottom:2px;}
+.tab{flex:0 0 auto;background:var(--card);border:1.5px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;
+display:flex;flex-direction:column;gap:3px;min-width:84px;transition:.15s;}
+.tab.act{border-color:var(--ink);background:var(--ink);}
+.tab.act .tname{color:#fff;} .tab.act .tpct{color:#fff;}
+.tab:disabled{opacity:.55;cursor:default;}
+.tname{font-size:12px;font-weight:600;white-space:nowrap;}
+.tpct{font-size:15px;font-weight:700;color:var(--ink);}
+.soon{font-size:10px;color:var(--muted);font-style:italic;}
+.phasebar{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 17px;margin-bottom:16px;}
+.pbtop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:11px;}
+.pbname{font-family:var(--serif);font-size:19px;}
+.pbsub{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.4;}
+.pbnum{font-family:var(--serif);font-size:30px;color:var(--accent);line-height:1;white-space:nowrap;}
+.pbnum span{font-size:15px;color:var(--muted);}
+.track{height:9px;background:var(--grey-soft);border-radius:6px;overflow:hidden;}
+.fill{height:100%;background:var(--accent);border-radius:6px;transition:width .35s ease;}
+.pbpct{font-size:10.5px;color:var(--muted);margin-top:7px;}
+.weeks{display:flex;flex-direction:column;gap:9px;}
+.week{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+.week.cur{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
+.whead{width:100%;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+padding:13px 15px 4px;gap:10px;text-align:left;}
+.wleft{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.curdot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:0 0 auto;}
+.wnum{font-family:var(--serif);font-size:17px;}
+.wdates{font-size:12px;color:var(--accent);font-weight:600;}
+.wbadge{font-size:9px;font-weight:700;letter-spacing:.5px;background:var(--grey-soft);color:var(--muted);padding:2px 7px;border-radius:4px;}
+.wbadge.race{background:var(--green);color:#fff;}
+.wright{display:flex;align-items:center;gap:9px;flex:0 0 auto;}
+.wcount{font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;}
+.wcount.done{color:var(--green);}
+.chev{font-size:12px;color:var(--muted);width:12px;}
+.wfocus{font-size:12px;color:var(--muted);font-style:italic;padding:0 15px 12px;}
+.sessions{padding:2px 11px 12px;display:flex;flex-direction:column;gap:8px;}
+.sess{border:1px solid var(--line);border-left:3px solid var(--k);border-radius:9px;padding:10px 12px;transition:.15s;}
+.sess.sdone{background:#fbfaf8;opacity:.72;}
+.srow{display:flex;gap:11px;align-items:flex-start;}
+.check{flex:0 0 auto;width:22px;height:22px;border:2px solid var(--ink);border-radius:6px;background:#fff;cursor:pointer;margin-top:1px;position:relative;}
+.check.on{background:var(--green);border-color:var(--green);}
+.check.on::after{content:"✓";color:#fff;font-size:14px;font-weight:700;position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);}
+.sbody{flex:1;min-width:0;}
+.stop{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.ktag{font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#fff;padding:2px 6px;border-radius:3px;}
+.stitle{font-size:14px;font-weight:600;}
+.shr{font-size:11px;color:var(--muted);margin-left:auto;font-weight:600;}
+.snote{font-size:12px;color:#54504a;line-height:1.4;margin-top:4px;}
+.sess.sdone .stitle{text-decoration:line-through;text-decoration-color:var(--muted);}
+.track-in{display:flex;gap:6px;margin-top:9px;}
+.fin{flex:1;min-width:0;border:1px solid var(--line);border-radius:7px;padding:6px 9px;font-size:12px;font-family:inherit;background:#fcfbf9;color:var(--ink);}
+.fin.fc{flex:0 0 58px;}
+.fin:focus{outline:none;border-color:var(--accent);background:#fff;}
+.fin::placeholder{color:#b8b2a8;}
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:30px 22px;text-align:center;}
+.empty h2{font-family:var(--serif);font-weight:400;font-size:22px;margin-bottom:8px;}
+.empty p{font-size:13px;color:var(--muted);line-height:1.55;max-width:420px;margin:0 auto;}
+.savetoast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;
+font-size:12px;padding:7px 16px;border-radius:20px;opacity:0;transition:.25s;pointer-events:none;}
+.savetoast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+@media(max-width:480px){.head h1{font-size:28px;}.pbname{font-size:17px;}}
+</style>`; }
+
+// ===== init =====
+(function(){
+  loadState();
+  render();
+})();
+</script>
+</body>
+</html>
