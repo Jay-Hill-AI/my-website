@@ -55,11 +55,11 @@ const WEEKS = {
  f3: []
 };
 
-function S(kind,title,hr,note){return {kind,title,hr,note};}
+function S(kind,title,hr,note,label){return {kind,title,hr,note,label};}
 
 function buildF1(){
   const focus=["Adaptació · trencar la zona gris","Assentar la base","Pujar volum suau","Setmana suau · recuperar",
-   "Tornar a carregar","Volum sòlid","Pic de bloc","Setmana suau","Bloc fort","Pic de la fase","Mantenir","Suau + test"];
+   "Pirineus · senderisme de diversos dies","Tornar amb cames de muntanya · arrencar suau","Pic de bloc","Setmana suau","Bloc fort","Pic de la fase","Mantenir","Suau + test"];
   const dates=["15–21 juny","22–28 juny","29 juny – 5 jul","6–12 jul","13–19 jul","20–26 jul",
    "27 jul – 2 ago","3–9 ago","10–16 ago","17–23 ago","24–30 ago","31 ago – 6 set"];
   const longmin=[90,105,115,90,120,135,145,110,150,165,150,120];
@@ -77,16 +77,41 @@ function buildF1(){
    ["Sèries curtes","Z5","10×90s en pujada"],
    ["Tempo en blocs","Z4","2×12min (pre-test)"]];
   const easy=["45–60","45–60","50–60","40–50","50–65","55–65","55–70","45–55","60–70","60–75","60–70","45–55"];
-  return Array.from({length:12},(_,i)=>({
-   focus:focus[i],dates:dates[i],badge:cut[i]?"SUAU":null,
-   sessions:[
-    S("core",`Suau — ${easy[i]} min`,"Z2","Tranquil per obrir la setmana. FC sota 150."),
-    S("str","Força bàsica — 25 min","Casa","Circuit casolà: sentadetes, zancades, pont de glutis, talons, planxa."),
-    S("core",`Qualitat — ${q[i][0]}`,q[i][1],q[i][2]),
-    S("opt","Recuperació — 30–40 min","Z1","Trot molt suau o descans. Si dubtes, descansa."),
-    S("opt","Força — 20 min","Casa","Segona dosi si la setmana ho permet. Una cama, excèntric."),
-    S("core",`Llarg — ${longmin[i]} min`,"Z2","Suau per terreny ondulat. Camina les pujades; FC sota 150.")
-   ]}));
+  return Array.from({length:12},(_,i)=>{
+   // Setmana 5 (index 4): Pyrenees special week — 2 short sessions + the hike as the long run
+   if(i===4){
+    return {
+     focus:focus[i],dates:dates[i],badge:"MUNTANYA",
+     sessions:[
+      S("core",`Qualitat — ${q[i][0]}`,q[i][1],"Dilluns o dimarts. " + q[i][2] + ". Avança-la abans dels Pirineus."),
+      S("str","Força bàsica — 25 min","Casa","Dimecres. Només si et trobes fresc; res que et deixi adolorit per als Pirineus."),
+      S("mp","Senderisme · dij–diu (16–19 jul)","Pirineus","Els dies de muntanya són el llarg d'aquesta setmana, amb escreix: hores en peu i desnivell en Z2. Or per a Zegama. Registra les rutes al Strava.","El llarg")
+     ]};
+   }
+   // Setmana 6 (index 5): adjusted long run wording for post-Pyrenees legs
+   if(i===5){
+    return {
+     focus:focus[i],dates:dates[i],badge:null,
+     sessions:[
+      S("core",`Suau — ${easy[i]} min`,"Z2","Tranquil per obrir la setmana. FC sota 150."),
+      S("str","Força bàsica — 25 min","Casa","Circuit casolà: sentadetes, zancades, pont de glutis, talons, planxa."),
+      S("core",`Qualitat — ${q[i][0]}`,q[i][1],q[i][2]),
+      S("opt","Recuperació — 30–40 min","Z1","Trot molt suau o descans. Si dubtes, descansa."),
+      S("opt","Força — 20 min","Casa","Segona dosi si la setmana ho permet. Una cama, excèntric."),
+      S("core",`Llarg — ${longmin[i]} min`,"Z2","Tornes dels Pirineus amb cames cansades. Si encara estan pesades, escurça cap a 110–120 min sense remordiments. FC sota 150.")
+     ]};
+   }
+   return {
+    focus:focus[i],dates:dates[i],badge:cut[i]?"SUAU":null,
+    sessions:[
+     S("core",`Suau — ${easy[i]} min`,"Z2","Tranquil per obrir la setmana. FC sota 150."),
+     S("str","Força bàsica — 25 min","Casa","Circuit casolà: sentadetes, zancades, pont de glutis, talons, planxa."),
+     S("core",`Qualitat — ${q[i][0]}`,q[i][1],q[i][2]),
+     S("opt","Recuperació — 30–40 min","Z1","Trot molt suau o descans. Si dubtes, descansa."),
+     S("opt","Força — 20 min","Casa","Segona dosi si la setmana ho permet. Una cama, excèntric."),
+     S("core",`Llarg — ${longmin[i]} min`,"Z2","Suau per terreny ondulat. Camina les pujades; FC sota 150.")
+    ]};
+  });
 }
 
 function buildF2a(){
@@ -115,7 +140,7 @@ function buildF2a(){
 }
 
 function buildF2b(){
-  const focus=["Reprendre · muntanya a carretera","Introduir ritme marató","Acumular ritme objectiu","Setmana suau",
+  const focus=["Reprendre · opció Mitja de Milano (22-N)","Introduir ritme marató","Acumular ritme objectiu","Setmana suau",
    "Bloc fort · allargar","Volum i ritme pugen","Primer llarg gran amb MP","Setmana suau","Tornar a carregar",
    "Llarg clau · 18km a ritme","Pic del bloc · llarg decisiu","Bloc fort · acumular","Tornar a carregar","Últim llarg gran",
    "Inici taper","Taper · cames fresques","Setmana de cursa · 14-M"];
@@ -135,9 +160,11 @@ function buildF2b(){
   return Array.from({length:17},(_,i)=>{
    const longSession = race[i]
      ? S("mp","MARATÓ BARCELONA","Cursa","Diumenge 14 març. El gran dia. Objectiu 3:30 (4:59/km).")
-     : (mp[i]>0
-        ? S("mp",`Llarg amb ritme marató — ${km[i]} km`,"MP 4:59",`${km[i]-mp[i]}km suaus + ${mp[i]}km a 4:59/km. Busca terreny pla.`)
-        : S("core",`Llarg suau — ${km[i]} km`,"Z2",cut[i]?"Tots suaus. Setmana suau: recupera.":"Tots suaus. Construeix base."));
+     : (i===0
+        ? S("core",`Llarg suau — ${km[i]} km (o Mitja de Milano)`,"Z2","22 km tots suaus (Z2) per reprendre després de Pota Roja. Si corres Milano (22-N), la cursa fa de llarg i et saltes aquesta sortida. FC sota 150.")
+        : (mp[i]>0
+           ? S("mp",`Llarg amb ritme marató — ${km[i]} km`,"MP 4:59",`${km[i]-mp[i]}km suaus + ${mp[i]}km a 4:59/km. Busca terreny pla.`)
+           : S("core",`Llarg suau — ${km[i]} km`,"Z2",cut[i]?"Tots suaus. Setmana suau: recupera.":"Tots suaus. Construeix base.")));
    const sessions=[
     S("core",`Suau — ${easy[i]} min`,"Z2","Tranquil. FC sota 150."),
     S("str","Força bàsica — 25 min","Casa","Potència i economia: afegeix pes si pots."),
@@ -266,7 +293,7 @@ function render(){
           ${isCur?'<span class="curdot"></span>':''}
           <span class="wnum">Setmana ${wi+1}</span>
           <span class="wdates">${w.dates}</span>
-          ${w.badge?`<span class="wbadge ${w.badge==='MARATÓ'||w.badge==='CURSA'?'race':''}">${w.badge}</span>`:''}
+          ${w.badge?`<span class="wbadge ${['MARATÓ','CURSA','MUNTANYA'].includes(w.badge)?'race':''}">${w.badge}</span>`:''}
         </span>
         <span class="wright">
           <span class="wcount ${allDone?'done':''}">${wp.d}/${wp.t}</span>
@@ -284,7 +311,7 @@ function render(){
           <div class="srow">
             <button class="check ${rec.done?'on':''}" data-id="${id}" aria-label="Marca fet"></button>
             <div class="sbody">
-              <div class="stop"><span class="ktag" style="background:${km.col}">${km.lbl}</span>
+              <div class="stop"><span class="ktag" style="background:${km.col}">${s.label||km.lbl}</span>
                 <span class="stitle">${s.title}</span><span class="shr">${s.hr}</span></div>
               <div class="snote">${s.note}</div>
             </div>
